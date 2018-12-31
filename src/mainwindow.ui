@@ -16,6 +16,9 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
+     <widget class="QComboBox" name="CBBibleBook"/>
+    </item>
+    <item>
      <widget class="QLineEdit" name="LEVerseEntry"/>
     </item>
     <item>

@@ -25,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->CBBibleBook->addItems(QStringList(QStringList() << "Gen" << "Ex" << "Lev"));
 }
 
 MainWindow::~MainWindow()
@@ -36,5 +38,5 @@ void MainWindow::on_PBAddVerse_clicked()
 {
     const QString verseText(ui->LEVerseEntry->text());
     ui->LEVerseEntry->clear();
-    ui->PTEAllVerses->appendPlainText(verseText);
+    ui->PTEAllVerses->appendPlainText(ui->CBBibleBook->currentText() + ' ' + verseText);
 }
