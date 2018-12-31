@@ -16,17 +16,45 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QComboBox" name="CBBibleBook"/>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QComboBox" name="CBBibleBook"/>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="SBChapter">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>150</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="SBVerse">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>176</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
-     <widget class="QLineEdit" name="LEVerseEntry"/>
-    </item>
-    <item>
-     <widget class="QPushButton" name="PBAddVerse">
-      <property name="text">
-       <string>Add Verse</string>
-      </property>
-     </widget>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLineEdit" name="LEVerseEntry"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="PBAddVerse">
+        <property name="text">
+         <string>Add Verse</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
      <widget class="QPlainTextEdit" name="PTEAllVerses">

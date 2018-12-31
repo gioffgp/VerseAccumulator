@@ -38,5 +38,8 @@ void MainWindow::on_PBAddVerse_clicked()
 {
     const QString verseText(ui->LEVerseEntry->text());
     ui->LEVerseEntry->clear();
-    ui->PTEAllVerses->appendPlainText(ui->CBBibleBook->currentText() + ' ' + verseText);
+    ui->PTEAllVerses->appendPlainText(ui->CBBibleBook->currentText()
+                                      + ' ' + ui->SBChapter->text()
+                                      + ' ' + ui->SBVerse->text()
+                                      + ' ' + verseText);
 }
