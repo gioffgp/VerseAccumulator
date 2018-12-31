@@ -20,6 +20,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QFile>
 #include <QMainWindow>
 
 namespace Ui {
@@ -36,8 +37,10 @@ public:
 
 private slots:
     void on_PBAddVerse_clicked();
+    void SaveData();
 
 private:
+    QFile *out;
     Ui::MainWindow *ui;
 };
 

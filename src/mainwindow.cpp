@@ -20,6 +20,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QDebug>
+#include <QFile>
+#include <QPushButton>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -27,6 +31,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     ui->CBBibleBook->addItems(QStringList(QStringList() << "Gen" << "Ex" << "Lev"));
+
+    connect(ui->PBSave, SIGNAL(clicked(bool)),
+            this, SLOT(SaveData()));
+
+    out = new QFile("/home/testUser/test.txt", this);
 }
 
 MainWindow::~MainWindow()
@@ -42,4 +51,18 @@ void MainWindow::on_PBAddVerse_clicked()
                                       + ' ' + ui->SBChapter->text()
                                       + ' ' + ui->SBVerse->text()
                                       + ' ' + verseText);
+}
+
+void MainWindow::SaveData()
+{
+    if (out->open(QIODevice::Text | QIODevice::WriteOnly) == false) {
+        qWarning() << "Failed to open file";
+        return;
+    }
+    if (out->write(ui->PTEAllVerses->toPlainText().toUtf8()) == -1) {
+        qWarning() << "Failed to write data";
+        out->close();
+        return;
+    }
+    out->close();
 }
