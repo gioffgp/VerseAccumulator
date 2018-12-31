@@ -31,3 +31,10 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::on_PBAddVerse_clicked()
+{
+    const QString verseText(ui->LEVerseEntry->text());
+    ui->LEVerseEntry->clear();
+    ui->PTEAllVerses->appendPlainText(verseText);
+}
