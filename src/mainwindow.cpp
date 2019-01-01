@@ -21,8 +21,10 @@
 #include "ui_mainwindow.h"
 
 #include <QDebug>
+#include <QDir>
 #include <QFile>
 #include <QPushButton>
+#include <QStandardPaths>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -35,7 +37,16 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->PBSave, SIGNAL(clicked(bool)),
             this, SLOT(SaveData()));
 
-    out = new QFile("/home/testUser/test.txt", this);
+    QDir dataDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
+    if (dataDir.exists() == false) {
+        if (dataDir.mkpath(dataDir.path()) == false) {
+            qWarning() << "Path for verse saving could not be created";
+            ui->PBSave->setEnabled(false);
+            return;
+        }
+    }
+
+    out = new QFile(dataDir.path() + "/verses.txt", this);
 }
 
 MainWindow::~MainWindow()
