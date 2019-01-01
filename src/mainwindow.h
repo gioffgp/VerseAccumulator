@@ -20,8 +20,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "verse.h"
+
 #include <QFile>
 #include <QMainWindow>
+#include <QMap>
 
 namespace Ui {
 class MainWindow;
@@ -40,8 +43,12 @@ private slots:
     void SaveData();
 
 private:
+    using VerseVec = QVector<Verse>;
+    using BookMap = QMap<Verse::EBookNames, VerseVec>;
+
     QFile *out;
     Ui::MainWindow *ui;
+    BookMap verses;
 };
 
 #endif // MAINWINDOW_H

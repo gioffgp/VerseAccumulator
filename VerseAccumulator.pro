@@ -16,10 +16,12 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x051102    # disables all the APIs depr
 
 SOURCES += \
     src/main.cpp \
-    src/mainwindow.cpp
+    src/mainwindow.cpp \
+    src/verse.cpp \
 
 HEADERS += \
-    src/mainwindow.h
+    src/mainwindow.h \
+    src/verse.h \
 
 FORMS += \
     src/mainwindow.ui
