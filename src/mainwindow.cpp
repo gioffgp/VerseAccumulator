@@ -102,7 +102,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     for (int i = 0; i < Verse::ZZZ_BIBLE_BOOK_QTY; ++i) {
-        ui->CBBibleBook->addItem(bookNames.at(i));
+        ui->CBBibleBook->addItem(bookNames.at(i), i);
         verses.insert(static_cast<Verse::EBookNames>(i), VerseVec());
     }
 
@@ -128,8 +128,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_PBAddVerse_clicked()
 {
-    const unsigned short book
-            = static_cast<unsigned short>(ui->CBBibleBook->currentData().toUInt());
+    const int book
+            = static_cast<int>(ui->CBBibleBook->currentData().toInt());
     const unsigned short chapterNo
             = static_cast<unsigned short>(ui->SBChapter->value());
     const unsigned short verseNo
