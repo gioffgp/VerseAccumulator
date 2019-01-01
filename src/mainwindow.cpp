@@ -117,6 +117,16 @@ MainWindow::MainWindow(QWidget *parent) :
             return;
         }
     }
+    for (const auto &bookName : bookNames) {
+        QDir bookDir(dataDir.path() + '/' + bookName);
+        if (bookDir.exists() == false) {
+            if (bookDir.mkpath(bookDir.path()) == false) {
+                qWarning() << "Failed to create directory for book:" << bookName;
+                ui->PBSave->setEnabled(false);
+                return;
+            }
+        }
+    }
 
     out = new QFile(dataDir.path() + "/verses.txt", this);
 }
