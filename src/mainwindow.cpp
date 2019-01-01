@@ -97,7 +97,7 @@ enum EBookNames {
     ZZZ_BIBLE_BOOK_QTY,
 };
 
-static const std::vector<QString> bookNames {
+static const QVector<QString> bookNames {
     "Genesis",          // GEN
     "Exodus",           // EX
     "Leviticus",        // LEV
@@ -173,8 +173,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     for (int i = 0; i < ZZZ_BIBLE_BOOK_QTY; ++i) {
-        ui->CBBibleBook->addItem(bookNames.at(
-            static_cast<std::vector<QString>::size_type>(i)));
+        ui->CBBibleBook->addItem(bookNames.at(i));
     }
 
     connect(ui->PBSave, SIGNAL(clicked(bool)),
