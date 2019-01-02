@@ -26,78 +26,7 @@
 #include <QPushButton>
 #include <QStandardPaths>
 
-enum EBookNames {
-    GEN,
-    EX,
-    LEV,
-    NUM,
-    DEUT,
-    JOSH,
-    JUDG,
-    RUTH,
-    FRST_SAM,
-    SCND_SAM,
-    FRST_KINGS,
-    SCND_KINGS,
-    FRST_CHRON,
-    SCND_CHRON,
-    EZRA,
-    NEH,
-    EST,
-    JOB,
-    PS,
-    PROV,
-    ECCLES,
-    SONG,
-    ISA,
-    JER,
-    LAM,
-    EZEK,
-    DAN,
-    HOS,
-    JOEL,
-    AMOS,
-    OBAD,
-    JONAH,
-    MIC,
-    NAH,
-    HAB,
-    ZEPH,
-    HAG,
-    ZECH,
-    MAL,
-    MATT,
-    MARK,
-    LUKE,
-    JOHN,
-    ACTS,
-    ROM,
-    FRST_COR,
-    SCND_COR,
-    GAL,
-    EPH,
-    PHIL,
-    COL,
-    FRST_THESS,
-    SCND_THESS,
-    FRST_TIM,
-    SCND_TIM,
-    TITUS,
-    PHILEM,
-    HEB,
-    JAMES,
-    FRST_PET,
-    SCND_PET,
-    FRST_JOHN,
-    SCND_JOHN,
-    THRD_JOHN,
-    JUDE,
-    REV,
-
-    ZZZ_BIBLE_BOOK_QTY,
-};
-
-static const std::vector<QString> bookNames {
+static const QVector<QString> bookNames {
     "Genesis",          // GEN
     "Exodus",           // EX
     "Leviticus",        // LEV
@@ -172,9 +101,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    for (int i = 0; i < ZZZ_BIBLE_BOOK_QTY; ++i) {
-        ui->CBBibleBook->addItem(bookNames.at(
-            static_cast<std::vector<QString>::size_type>(i)));
+    for (int i = 0; i < Verse::ZZZ_BIBLE_BOOK_QTY; ++i) {
+        ui->CBBibleBook->addItem(bookNames.at(i), i);
+        verses.insert(static_cast<Verse::EBookNames>(i), VerseVec());
     }
 
     connect(ui->PBSave, SIGNAL(clicked(bool)),
@@ -188,6 +117,16 @@ MainWindow::MainWindow(QWidget *parent) :
             return;
         }
     }
+    for (const auto &bookName : bookNames) {
+        QDir bookDir(dataDir.path() + '/' + bookName);
+        if (bookDir.exists() == false) {
+            if (bookDir.mkpath(bookDir.path()) == false) {
+                qWarning() << "Failed to create directory for book:" << bookName;
+                ui->PBSave->setEnabled(false);
+                return;
+            }
+        }
+    }
 
     out = new QFile(dataDir.path() + "/verses.txt", this);
 }
@@ -199,11 +138,22 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_PBAddVerse_clicked()
 {
+    const int book
+            = static_cast<int>(ui->CBBibleBook->currentData().toInt());
+    const unsigned short chapterNo
+            = static_cast<unsigned short>(ui->SBChapter->value());
+    const unsigned short verseNo
+            = static_cast<unsigned short>(ui->SBVerse->value());
     const QString verseText(ui->LEVerseEntry->text());
+
+    verses[static_cast<Verse::EBookNames>(book)].push_back(
+                Verse(static_cast<Verse::EBookNames>(book), chapterNo,
+                      verseNo, verseText));
+
     ui->LEVerseEntry->clear();
     ui->PTEAllVerses->appendPlainText(ui->CBBibleBook->currentText()
-                                      + ' ' + ui->SBChapter->text()
-                                      + ' ' + ui->SBVerse->text()
+                                      + ' ' + QString::number(chapterNo)
+                                      + ' ' + QString::number(verseNo)
                                       + ' ' + verseText);
 }
 
